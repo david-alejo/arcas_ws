@@ -8,3 +8,5 @@ Gazebo simulations are provided in order to test the functionality.
 All these tests can be found in the directories src/use_tg/experiments
 
 Please contact me: churr.te@gmail.com for any doubts, feedback or assistance.
+
+For configuring the workspace, please follow the instructions found in src/provided_ws/setupARCAS_ROSWorkspace.txt
