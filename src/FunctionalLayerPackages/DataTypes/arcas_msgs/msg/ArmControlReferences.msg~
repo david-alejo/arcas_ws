@@ -1,0 +1,9 @@
+# This contains the control references for the robotic arm on board. That is, the desired values of the arm angles and the servo angle value of the battery. The angle values are always given in the following order: Yaw1, Pitch1, Pitch2, Roll1 Pitch3, Roll2, Gripper. These angles are shown in the code API documentation of the arcas_msgs node and the developer manual of the functional layer.
+
+
+
+# The arm angles values in radians [rad] with respect to the arm frame.
+float64[7] position_ref
+
+# The servo angle value of the battery measured in radians [rad]. Its range is [-PI, PI]
+float64 battery

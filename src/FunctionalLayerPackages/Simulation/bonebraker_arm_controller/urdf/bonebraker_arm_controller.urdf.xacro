@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+>
+  <!-- Quadrotor Gazebo Plugins -->
+  <xacro:macro name="bonebraker_arm_controller">
+    <canonicalBody>base_link</canonicalBody>
+    <gazebo>
+      <controller:bonebraker_arm_controller name="bonebraker_arm_controller" plugin="libbonebraker_arm_controller.so">
+      </controller:bonebraker_arm_controller>
+    </gazebo>
+  </xacro:macro>
+</robot>

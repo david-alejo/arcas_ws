@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+<node name="ual_1" pkg="ual" type="ual_qnx" args="1 10.0.0.215 28961 28960" />
+
+</launch>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="use_sim_time" value="true" />
+	<!-- Include gazebo launch file
+	     You have to start gazebo before -->
+	<include file="$(find ual)/launch/testbed_arcas_multiuav.launch"/>
+
+	<!-- Control nodes -->
+	<node name="ual_1" pkg="ual" type="ual_gazebo" args="1" />
+	<node name="ual_2" pkg="ual" type="ual_gazebo" args="2" />
+	<node name="ual_3" pkg="ual" type="ual_gazebo" args="3" />
+	<node name="ual_4" pkg="ual" type="ual_gazebo" args="4" />
+	<!--node name="ual_5" pkg="ual" type="ual_gazebo" args="5" />
+	<node name="ual_6" pkg="ual" type="ual_gazebo" args="6" />
+	<node name="ual_7" pkg="ual" type="ual_gazebo" args="7" />
+	<node name="ual_8" pkg="ual" type="ual_gazebo" args="8" />
+	<node name="ual_9" pkg="ual" type="ual_gazebo" args="9" />
+	<node name="ual_10" pkg="ual" type="ual_gazebo" args="10" /-->
+
+	<node name="matlab" pkg="state_to_matlab" type="state_to_matlab" args="state /ual_ /ual_state_others 1 2 3 4" />
+	<!-- Perception nodes -->
+	
+</launch>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+
+<param name="/use_sim_time" value="true" />
+
+<include file="$(find ual)/launch/spawn_hummingbird.launch">
+   <arg name="uav_id" value="4" />
+   <arg name="x" value="-0.500000 " />
+   <arg name="y" value="-2.300000" />
+   <arg name="z" value="0.35" />
+</include>
+<include file="$(find ual)/launch/spawn_hummingbird.launch">
+   <arg name="uav_id" value="5" />
+   <arg name="x" value="-0.500000 " />
+   <arg name="y" value="-2.300000" />
+   <arg name="z" value="1.35" />
+</include>
+<include file="$(find ual)/launch/spawn_hummingbird.launch">
+   <arg name="uav_id" value="6" />
+   <arg name="x" value="-2.500000 " />
+   <arg name="y" value="-2.300000" />
+   <arg name="z" value="0.35" />
+</include>
+
+</launch>

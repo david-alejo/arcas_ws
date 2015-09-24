@@ -1,0 +1,306 @@
+<gazebo version="1.0">
+<model name="quadrotor" static="false">
+  <link name="base_link" gravity='0' kinematic='1'>
+    <inertial mass="1.316">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/bonebraker.stl"/>
+      </geometry>
+    </collision>
+
+    <visual name="visual"  cast_shadows="true">
+      <geometry>
+        <mesh filename="bonebraker/bonebraker.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+<joint name="my_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="brazo_0"/>
+         <axis xyz="0 0 0">
+            <limit effort="10000" lower="0" upper="0" velocity="0" />
+            <dynamics damping="0.1" friction="0.0"/>
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+  <link name="brazo_0" gravity="0">
+    <inertial mass="0.2">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.0625 0.065 0.203 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo0.dae"/>
+      </geometry>
+
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo0.dae"/>
+      </geometry>
+    </visual>
+  </link>
+ 
+
+     <joint name="my_joint2" type="revolute">
+        <parent link="brazo_0"/>
+        <child link="brazo_1"/>
+        <axis xyz="0 0 0">
+            <limit effort="10000" lower="0" upper="0" velocity="0" />
+            <dynamics damping="10000" friction="10000"/>
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+ <link name="brazo_1" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.048 0.050 0.155 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo1.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo1.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+   <joint name="my_joint3" type="revolute">
+        <parent link="brazo_1"/>
+        <child link="brazo_2"/>
+<axis xyz="0 0 0">
+            <limit effort="10000" lower="0" upper="0" velocity="0" />
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+ <link name="brazo_2" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.042 0.044 0.123 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo2.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo2.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="my_joint4" type="revolute">
+        <parent link="brazo_2"/>
+        <child link="brazo_3"/>
+<axis xyz="0 0 0">
+            <limit effort="10000" lower="0" upper="0" velocity="0" />
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+ <link name="brazo_3" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.252 0.256 0.125 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo3.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo3.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+
+ <joint name="my_joint5" type="revolute">
+        <parent link="brazo_3"/>
+        <child link="brazo_4"/>
+<axis xyz="0 0 0">
+            <limit effort="10000" lower="0" upper="0" velocity="0" />
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+ <link name="brazo_4" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.304 0.304 0.124 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo4.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo4.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+ <joint name="my_joint6" type="revolute">
+        <parent link="brazo_4"/>
+        <child link="brazo_5"/>
+<axis xyz="0 0 0">
+            <limit lower="0" upper="0" velocity="0" />
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+ <link name="brazo_5" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.358 0.358 0.126 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo5.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo5.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+<joint name="my_joint7" type="revolute">
+        <parent link="brazo_5"/>
+        <child link="brazo_6"/>
+<axis xyz="0 0 0">
+            <limit lower="0" upper="0" velocity="0" />
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+      </joint>
+
+ <link name="brazo_6" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.412 0.412 0.126 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo6.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo6.dae"/>
+      </geometry>
+    </visual>
+  </link>
+<joint name="my_joint8" type="revolute">
+        <parent link="brazo_6"/>
+        <child link="brazo_7"/>
+        <axis xyz="0 0 0"/>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+      </joint>
+
+ <link name="brazo_7" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.415 0.441 0.128 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo7.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo7.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+ <joint name="my_joint9" type="revolute">
+        <parent link="brazo_7"/>
+        <child link="brazo_8"/>
+        <axis xyz="0 0 0">
+            <limit lower="-10" upper="10" velocity="2.0" />
+	</axis>
+       <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>
+	  <physics>
+	    <ode>
+	      <velocity>1.0</velocity>
+        <suspension cfm="0.0" erp="0.0" />
+	    </ode>
+	  </physics>
+ </joint>
+
+ <link name="brazo_8" gravity="0" kinematic="1">
+    <inertial mass="0.01">
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+    </inertial>
+     <origin pose='0.441 0.415 0.128 0.0 0.0 -2.3561925'/>
+    <collision name="collision">
+      <geometry>
+        <mesh filename="bonebraker/brazo8.dae"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="bonebraker/brazo8.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+</model>
+</gazebo>

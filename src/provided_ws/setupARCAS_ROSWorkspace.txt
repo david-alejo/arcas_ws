@@ -1,0 +1,48 @@
+/*************************************************************\
+|*   	      Instructions for setting the ROS               *|
+|*    workspace of the ARCAS project for the third year      *|
+|*		   <<< Hydro ROS version >>>		     *|
+\*************************************************************/
+
+- Setting the provided workspace:
+	- source /opt/ros/hydro/setup.bash
+	- mkdir -p your_ws/src
+	- cd your_ws/src
+	- catkin_init_workspace
+	- cd your_ws
+	- catkin_make
+	- source your_ws/devel/setup.bash
+	- cp -R provided_ws/src/* your_ws/src/
+	- Compile your_ws:
+		- cd your_ws
+		- catkin_make
+	- Establish the GAZEBO_MODEL_PATH environment variable:
+		- export GAZEBO_MODEL_PATH=your_ws/src/FunctionalLayerPackages/Control/ual/models:your_ws/src/FunctionalLayerPackages/Control/ual/Media/models
+	- Test the workspace:
+		- Test Gazebo:
+			- roslaunch ual testbed_pipes.launch or roslaunch ual testbed_arcas.launch
+		- Add three hummingbirds:
+			- roslaunch ual gazebo_nodes.launch
+			- roslaunch ual testbed_arcas_multiuav.launch
+
+- Dependencies:
+	- Hydro desktop full version: sudo apt-get install ros-hydro-desktop-full
+	- Gazebo version 1.9.5
+	- Metapackage hector_quadrotor: sudo apt-get install ros-hydro-hector* 
+	- Set of ROS packages named 'gazebo_ros_pkgs': sudo apt-get install ros-hydro-gazebo-*
+	- Other installed packages:
+		- ros-hydro-message-to-tf
+
+- Considerations
+	- Due to the different functionality of the workspace, is difficult to test it fully.
+	  If you detect any problem, please report us and we will solve it as soon as possible.
+
+	- The QuadStateEstimationStamped message has been updated to the 
+	  QuadStateEstimationWithCovarianceStamped message, like it was agreed in the Barcelona meeting.
+
+	- Tested in Ubuntu 12.04.2 64bits and gcc 4.6.3.
+
+- References
+	- Hydro Installation: http://wiki.ros.org/hydro/Installation/Ubuntu
+	- Catkin Migration: http://wiki.ros.org/catkin/migrating_from_rosbuild
+

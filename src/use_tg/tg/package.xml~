@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package>
+  <name>tg</name>
+  <version>0.0.0</version>
+  <description>This package provides the UAV with a trajectory follower which can be discrete or continuous 
+    (automatically selects one or another depending on the number of waypoints to be followed.</description>
+
+  <maintainer email="dalejo@us.es">David Alejo Teissière</maintainer>
+
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>BSD</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>roscpp</build_depend>
+  <build_depend>rosconsole</build_depend>
+  <build_depend>functions</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>arcas_msgs</build_depend>
+  <build_depend>arcas_actions_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  
+  <run_depend>roscpp</run_depend>
+  <run_depend>rosconsole</run_depend>
+  <run_depend>functions</run_depend>
+  <run_depend>rosconsole</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>arcas_msgs</run_depend>
+  <run_depend>arcas_actions_msgs</run_depend>
+  <run_depend>tf</run_depend>
+
+  <export>
+
+  </export>
+</package>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+<param name="/use_sim_time" value="true" />
+<arg name="capture" default="false" />
+<arg name="video" default="scenario_2013.glc" />
+
+<node name="gazebo" pkg="gazebo_ros" type="gazebo" launch-prefix="glc-capture -o $(find experiments)/$(arg video)" if="$(arg capture)" args="$(find simulations_thesis)/world/testbed_arcas_scenario_2013.world" respawn="false" output="screen">
+  <env name="GAZEBO_RESOURCE_PATH" value="$(find simulation_thesis)/models" />
+</node>
+<node name="gazebo" pkg="gazebo_ros" type="gazebo" unless="$(arg capture)" args="$(find simulations_thesis)/world/testbed_arcas_scenario_2013.world" respawn="false" output="screen">
+  <env name="GAZEBO_RESOURCE_PATH" value="$(find ual)/models" />
+</node>
+
+</launch>

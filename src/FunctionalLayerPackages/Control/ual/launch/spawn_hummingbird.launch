@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+   <arg name="uav_id" default="1"/>
+   <arg name="x" default="0.0"/>
+   <arg name="y" default="0.0"/>
+   <arg name="z" default="0.35"/>
+   <arg name="model" default="$(find ual)/urdf/hummingbird_$(arg uav_id).urdf.xacro"/>
+   <!-- send the robot XML to param server -->
+   <param command="$(find xacro)/xacro.py '$(arg model)'" name="robot_description_$(arg uav_id)"/>
+
+   <!-- push robot_description to factory and spawn robot in gazebo -->
+   <node name="spawn_robot_$(arg uav_id)" pkg="gazebo_ros" type="spawn_model"
+   args="-param robot_description_$(arg uav_id)
+   -urdf
+   -x $(arg x)
+   -y $(arg y)
+   -z $(arg z)
+   -model uav_$(arg uav_id)"
+     respawn="false" output="screen"/>
+
+   <!-- start robot state publisher
+   <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen" >
+     <param name="publish_frequency" type="double" value="50.0" />
+     <param name="tf_prefix" type="string" value="" />
+   </node>-->
+
+    <!--node name="ground_truth_to_tf_$(arg uav_id)" pkg="message_to_tf" type="message_to_tf" output="screen">
+     <param name="odometry_topic" value="ground_truth/state" />
+     <param name="frame_id" value="nav" />
+     <remap from="ground_truth_$(arg uav_id)/state" to="/ual_$(arg uav_id)/ground_truth/state" />
+   </node>
+   <node name="hector_pose_estimation_$(arg uav_id)" pkg="hector_pose_estimation" type="hector_pose_estimation_node" output="screen"/-->
+
+   <!--rosparam command="load" ns="gazebo" file="$(find hector_quadrotor_controller)/param/quadrotor_aerodynamics.yaml" /-->
+ </launch>
+

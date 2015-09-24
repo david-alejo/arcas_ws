@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Include gazebo launch file -->
+	<include file="$(find ual)/launch/testbed_arcas.launch"/>
+        <include file="$(find ual)/launch/spawn_bonebraker.launch"/>
+
+	<!-- Control nodes -->
+	<node name="ual_1" pkg="ual" type="ual_gazebo" args="1 1" />
+	<node name="aal_1" pkg="aal" type="aal_gazebo" args="1" />
+	<node name="motion_action_handler_1" pkg="motion_action_handler" type="motion_action_handler_node" args="" />
+	<node name="trajectory_generator_1" pkg="trajectory_generator" type="trajectory_generator_node" args="">
+ 	     <remap from="/control/arm_state_estimation" to="/aal_1/arm_state_estimation" />
+             <remap from="/control/quad_state_estimation" to="/ual_1/quad_state_estimation" />
+	     <remap from="/control/arm_control_references" to="/aal_1/arm_control_references" />
+             <remap from="/control/quad_control_references" to="/ual_1/quad_control_references" />
+	</node>
+	
+
+	<!-- Perception nodes -->
+	<node name="object_pose_estimation_1" pkg="object_pose_estimation" type="object_pose_estimation_node" args="">
+	     <remap from="/perception/arm_state_estimation" to="/aal_1/arm_state_estimation" />
+             <remap from="/perception/quad_state_estimation" to="/ual_1/quad_state_estimation" />
+	</node>
+	<node name="perception_aided_quad_state_1" pkg="perception_aided_quad_state" type="perception_aided_quad_state_node" args="">
+	     <remap from="/perception/quad_state_estimation" to="/ual_1/quad_state_estimation" />
+	</node>
+	<node name="perception_servoing_1" pkg="perception_servoing" type="perception_servoing_node" args="">
+	     <remap from="/perception/arm_state_estimation" to="/aal_1/arm_state_estimation" />
+             <remap from="/perception/quad_state_estimation" to="/ual_1/quad_state_estimation" />
+	     <remap from="/perception/arm_control_references" to="/aal_1/arm_control_references" />
+             <remap from="/perception/quad_control_references" to="/ual_1/quad_control_references" />
+	</node>
+	<node name="perception_aided_arm_state_1" pkg="perception_aided_arm_state" type="perception_aided_arm_state_node" args="">
+	     <remap from="/perception/arm_state_estimation" to="/aal_1/arm_state_estimation" />
+	</node>
+	<node name="perception_assembly_1" pkg="perception_assembly" type="perception_assembly_node" args="" />
+</launch>
+

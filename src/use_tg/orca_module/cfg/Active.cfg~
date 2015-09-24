@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+PACKAGE = "orca_module"
+
+import roslib;roslib.load_manifest(PACKAGE)
+
+from dynamic_reconfigure.parameter_generator import *
+
+gen = ParameterGenerator()
+
+gen.add("active", str_t, 0, "Active string", "1111111111111111")
+
+exit(gen.generate(PACKAGE, "ORCAMOdule", "active"))

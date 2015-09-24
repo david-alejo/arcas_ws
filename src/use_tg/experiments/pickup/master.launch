@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Common modules -->
+  
+  
+	<!-- RVIZ representation stuff -->
+ 	<node name="transform" pkg="transform_from_vicon" type="node" args="3 4 5 7"/> 
+	
+	<!-- Arcas Visualizer -->
+	<node name="arcas_visualizer" pkg="arcas_visualizer" type="arcas_visualizer"/>
+  
+	<!-- State logger -->
+	
+<!-- UAV 1 Modules -->
+
+	<!-- ORCA Module -->
+	<node name="orca_4" pkg="orca_module" type="orca_launcher" args="0 $(find experiments)/pickup/config_1 $(find experiments)/Media/models/mockup_simple.3ds">
+	  
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_4" pkg="tg" type="trajectory_generator" args="4 --min_dist 0.75" >
+		<remap from="/trajectory_generator_4/out_velocity" to="/orca_4/v_pref" />	
+	</node>
+	
+<!-- UAV 5 Modules -->
+
+	<!-- ORCA Module -->
+	<node name="orca_5" pkg="orca_module" type="orca_launcher" args="1 $(find experiments)/pickup/config_1 $(find experiments)/Media/models/mockup_simple.3ds">
+	  
+	</node>
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_5" pkg="tg" type="trajectory_generator" args="5 --min_dist 0.75" >
+		<remap from="/trajectory_generator_5/out_velocity" to="/orca_5/v_pref" />	
+	</node>
+	
+<!-- UAV 3 Modules -->
+
+	<!-- ORCA Module -->
+	<node name="orca_3" pkg="orca_module" type="orca_launcher" args="2 $(find experiments)/pickup/config_1 $(find experiments)/Media/models/mockup_simple.3ds">
+	  
+	</node>
+	
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_3" pkg="tg" type="trajectory_generator" args="3 --min_dist 0.75" >
+		<remap from="/trajectory_generator_3/out_velocity" to="/orca_3/v_pref" />	
+	</node>
+	
+	<!-- UAV 7 Modules -->
+
+	<!-- ORCA Module -->
+	<node name="orca_7" pkg="orca_module" type="orca_launcher" args="3 $(find experiments)/pickup/config_1 $(find experiments)/Media/models/mockup_simple.3ds">
+	  
+	</node>
+	
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_7" pkg="tg" type="trajectory_generator" args="7 --min_dist 0.75" >
+		<remap from="/trajectory_generator_7/out_velocity" to="/orca_7/v_pref" />	
+	</node>
+
+	
+</launch>
+

@@ -1,0 +1,3 @@
+[Project]
+Manager=KDevCMakeManager
+Name=transform_from_vicon

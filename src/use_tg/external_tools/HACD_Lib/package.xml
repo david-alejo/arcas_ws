@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>HACD_Lib</name>
+  <version>0.0.0</version>
+  <description>The HACD_Lib package</description>
+  
+  <maintainer email="dalejo@us.es">David Alejo Teissière</maintainer>
+
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <export>
+
+  </export>
+</package>

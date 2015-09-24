@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="use_sim_time" value="true" />
+	<!-- Include gazebo launch file
+	     You have to start gazebo before -->
+	<include file="$(find experiments)/3_uavs_1_obs/ccii.launch"/>
+
+	<!-- Control nodes -->
+	<node name="ual_4" pkg="ual" type="ual_gazebo" args="4" />
+	<node name="ual_5" pkg="ual" type="ual_gazebo" args="5" />
+	<node name="ual_6" pkg="ual" type="ual_gazebo" args="6" />
+	
+</launch>
+

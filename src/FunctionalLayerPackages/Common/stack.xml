@@ -1,0 +1,10 @@
+<stack>
+  <description brief="Stack for common functionalities or classes">
+    Reusable code
+  </description>
+  <author>CATEC</author>
+  <license></license>
+  <review status="unreviewed" notes=""/>
+  <url></url>
+  <depend stack="ros"/>
+</stack>

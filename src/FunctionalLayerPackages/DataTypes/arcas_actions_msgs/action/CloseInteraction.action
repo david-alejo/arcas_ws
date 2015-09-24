@@ -1,0 +1,13 @@
+#goal definition
+arcas_msgs/AerialVehicleTrajectoryPoint[] trajectory_points
+uint8 CLOSE=1
+uint8 RELEASE=2
+uint8 end_point
+---
+#result definition
+---
+#feedback definition
+uint8 current_phase
+uint8 APROACHING_GOINGBACK=1
+uint8 CLOSE_RELEASE=2
+

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Common modules -->
+  
+  	
+  
+<!-- UAV 1 Modules -->
+
+  <!-- ORCA Module -->
+  <node name="orca_4" pkg="orca_module" type="orca_launcher" args="0 $(find experiments)/3_uavs_1_obs/config_1 $(find ual)/Media/models/cube.stl">
+    
+  </node>
+  
+  <!-- Waypoint List Follower follower Point Node. -->
+  <node name="trajectory_generator_4" pkg="tg" type="trajectory_generator" args="4 --min_dist 0.5" >
+    <remap from="/trajectory_generator_4/out_velocity" to="/orca_4/v_pref" />	
+  </node>
+  
+  <!-- UAV 2 Modules -->
+
+  <!-- ORCA Module -->
+  <node name="orca_5" pkg="orca_module" type="orca_launcher" args="1 $(find experiments)/3_uavs_1_obs/config_1 $(find ual)/Media/models/cube.stl">
+    
+  </node>
+  
+  <!-- Waypoint List Follower follower Point Node. -->
+  <node name="trajectory_generator_5" pkg="tg" type="trajectory_generator" args="5 --min_dist 0.5" >
+    <remap from="/trajectory_generator_5/out_velocity" to="/orca_5/v_pref" />	
+  </node>
+  
+  <!-- UAV 3 Modules -->
+
+  <!-- ORCA Module -->
+  <node name="orca_6" pkg="orca_module" type="orca_launcher" args="2 $(find experiments)/3_uavs_1_obs/config_1 $(find ual)/Media/models/cube.stl">
+    
+  </node>
+  
+  <!-- Waypoint List Follower follower Point Node. -->
+  <node name="trajectory_generator_6" pkg="tg" type="trajectory_generator" args="6 --min_dist 0.5" >
+    <remap from="/trajectory_generator_6/out_velocity" to="/orca_6/v_pref" />	
+  </node>
+  
+  
+</launch>

@@ -1,0 +1,7 @@
+#goal definition
+arcas_msgs/AerialVehicleTrajectoryPoint[] trajectory_points
+---
+#result definition
+---
+#feedback definition
+

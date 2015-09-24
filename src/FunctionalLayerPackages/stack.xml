@@ -1,0 +1,10 @@
+<stack>
+  <description brief="Stack for Functional layer">
+    This stack has been created for compile all nodes.
+  </description>
+  <author>CATEC</author>
+  <license></license>
+  <review status="unreviewed" notes=""/>
+  <url></url>
+  <depend stack="ros"/>
+</stack>

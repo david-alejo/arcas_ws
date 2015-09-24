@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Common modules -->
+  
+	<!-- ROS bridge dummy -->
+<!-- 	<node name="ROS_bridge" pkg="ROSBridgeDummy" type="ROSBridgeDummy" args="$(find ICUAS14)/8_uavs/traj_1.txt $(find ICUAS14)/8_uavs/traj_2.txt"/> -->
+	
+	<!-- State logger -->
+	<node name="state_to_matlab" pkg="state_to_matlab" type="state_to_matlab" args="$(find ICUAS14)/8_uavs/logs/state /ual_ /quad_state_estimation 1 2 3 4 5 6 7 8"/>
+	
+<!-- UAV 1 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_1" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="1 1.0">
+	  <remap from="/velocity_to_wp_1/in_velocity" to="/orca_1/cmd_vel" />
+	  <remap from="/uav_1/ual_state" to="/ual_1/quad_state_estimation" />
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_1" pkg="ORCAMOdule" type="orca_launcher" args="0 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_1" pkg="path_follower_arcas" type="path_follower_arcas" args="1 1.0">
+	     <remap from="/arcas_follower_1/control_references_rw" to="/ual_1/quad_control_references"/>
+	     <remap from="/arcas_follower_1/way_point_callback" to="/velocity_to_wp_1/out_waypoint" />	
+	     <remap from="/uav_1/ual_state" to="/ual_1/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_1" pkg="TG" type="trajectory_generator" args="1" >
+		<remap from="/trajectory_generator_1/out_velocity" to="/orca_1/v_pref" />	
+	</node>
+	
+<!-- UAV 2 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_2" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="2 1.0">
+	  <remap from="/velocity_to_wp_2/in_velocity" to="/orca_2/cmd_vel" />
+	  <remap from="/velocity_to_wp_2/ual_state" to="/ual_2/quad_state_estimation" />	
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_2" pkg="ORCAMOdule" type="orca_launcher" args="1 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_2" pkg="path_follower_arcas" type="path_follower_arcas" args="2 1.0">
+	  <remap from="/arcas_follower_2/control_references_rw" to="/ual_2/quad_control_references"/>
+	  <remap from="/arcas_follower_2/way_point_callback" to="/velocity_to_wp_2/out_waypoint" />	
+	  <remap from="/uav_2/ual_state" to="/ual_2/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_2" pkg="TG" type="trajectory_generator" args="2" >
+		<remap from="/trajectory_generator_2/out_velocity" to="/orca_2/v_pref" />	
+	</node>
+	
+<!-- UAV 3 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_3" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="3 1.0">
+	  <remap from="/velocity_to_wp_3/in_velocity" to="/orca_3/cmd_vel" />
+	  <remap from="/velocity_to_wp_3/ual_state" to="/ual_3/quad_state_estimation" />	
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_3" pkg="ORCAMOdule" type="orca_launcher" args="2 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_3" pkg="path_follower_arcas" type="path_follower_arcas" args="3 1.0">
+	  <remap from="/arcas_follower_3/control_references_rw" to="/ual_3/quad_control_references"/>
+	  <remap from="/arcas_follower_3/way_point_callback" to="/velocity_to_wp_3/out_waypoint" />	
+	  <remap from="/uav_3/ual_state" to="/ual_3/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_3" pkg="TG" type="trajectory_generator" args="3" >
+		<remap from="/trajectory_generator_3/out_velocity" to="/orca_3/v_pref" />	
+	</node>
+	
+	<!-- UAV 4 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_4" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="4 1.0">
+	  <remap from="/velocity_to_wp_4/in_velocity" to="/orca_4/cmd_vel" />
+	  <remap from="/uav_4/ual_state" to="/ual_4/quad_state_estimation" />
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_4" pkg="ORCAMOdule" type="orca_launcher" args="3 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_4" pkg="path_follower_arcas" type="path_follower_arcas" args="4 1.0">
+	     <remap from="/arcas_follower_4/control_references_rw" to="/ual_4/quad_control_references"/>
+	     <remap from="/arcas_follower_4/way_point_callback" to="/velocity_to_wp_4/out_waypoint" />	
+	     <remap from="/uav_4/ual_state" to="/ual_4/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_4" pkg="TG" type="trajectory_generator" args="4" >
+		<remap from="/trajectory_generator_4/out_velocity" to="/orca_4/v_pref" />	
+	</node>
+	
+<!-- UAV 5 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_5" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="5 1.0">
+	  <remap from="/velocity_to_wp_5/in_velocity" to="/orca_5/cmd_vel" />
+	  <remap from="/velocity_to_wp_5/ual_state" to="/ual_5/quad_state_estimation" />	
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_5" pkg="ORCAMOdule" type="orca_launcher" args="4 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_5" pkg="path_follower_arcas" type="path_follower_arcas" args="5 1.0">
+	  <remap from="/arcas_follower_5/control_references_rw" to="/ual_5/quad_control_references"/>
+	  <remap from="/arcas_follower_5/way_point_callback" to="/velocity_to_wp_5/out_waypoint" />	
+	  <remap from="/uav_5/ual_state" to="/ual_5/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_5" pkg="TG" type="trajectory_generator" args="5" >
+		<remap from="/trajectory_generator_5/out_velocity" to="/orca_5/v_pref" />	
+	</node>
+	
+<!-- UAV 6 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_6" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="6 1.0">
+	  <remap from="/velocity_to_wp_6/in_velocity" to="/orca_6/cmd_vel" />
+	  <remap from="/velocity_to_wp_6/ual_state" to="/ual_6/quad_state_estimation" />	
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_6" pkg="ORCAMOdule" type="orca_launcher" args="5 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_6" pkg="path_follower_arcas" type="path_follower_arcas" args="6 1.0">
+	  <remap from="/arcas_follower_6/control_references_rw" to="/ual_6/quad_control_references"/>
+	  <remap from="/arcas_follower_6/way_point_callback" to="/velocity_to_wp_6/out_waypoint" />	
+	  <remap from="/uav_6/ual_state" to="/ual_6/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_6" pkg="TG" type="trajectory_generator" args="6" >
+		<remap from="/trajectory_generator_6/out_velocity" to="/orca_6/v_pref" />	
+	</node>
+	
+<!-- UAV 7 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_7" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="7 1.0">
+	  <remap from="/velocity_to_wp_7/in_velocity" to="/orca_7/cmd_vel" />
+	  <remap from="/velocity_to_wp_7/ual_state" to="/ual_7/quad_state_estimation" />	
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_7" pkg="ORCAMOdule" type="orca_launcher" args="6 $(find ICUAS14)/6_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_7" pkg="path_follower_arcas" type="path_follower_arcas" args="7 1.0">
+	  <remap from="/arcas_follower_7/control_references_rw" to="/ual_7/quad_control_references"/>
+	  <remap from="/arcas_follower_7/way_point_callback" to="/velocity_to_wp_7/out_waypoint" />	
+	  <remap from="/uav_7/ual_state" to="/ual_7/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_7" pkg="TG" type="trajectory_generator" args="7" >
+		<remap from="/trajectory_generator_7/out_velocity" to="/orca_7/v_pref" />	
+	</node>
+	
+<!-- UAV 8 Modules -->
+
+	<!-- Velocity follower -->
+	<node name="velocity_to_wp_8" pkg="velocity_to_wp_arcas" type="velocity_to_wp_arcas" args="8 1.0">
+	  <remap from="/velocity_to_wp_8/in_velocity" to="/orca_8/cmd_vel" />
+	  <remap from="/velocity_to_wp_8/ual_state" to="/ual_8/quad_state_estimation" />	
+	</node>
+	
+	<!-- ORCA Module -->
+	<node name="orca_8" pkg="ORCAMOdule" type="orca_launcher" args="7 $(find ICUAS14)/8_uavs/config_1 $(find ICUAS14)/Media/models/obstacles_no_floor.3ds">
+	  
+	</node>
+	
+	<!-- Simple Follower Node. -->
+	<node name="arcas_follower_8" pkg="path_follower_arcas" type="path_follower_arcas" args="8 1.0">
+	  <remap from="/arcas_follower_8/control_references_rw" to="/ual_8/quad_control_references"/>
+	  <remap from="/arcas_follower_8/way_point_callback" to="/velocity_to_wp_8/out_waypoint" />	
+	  <remap from="/uav_8/ual_state" to="/ual_8/quad_state_estimation" />
+	</node>
+
+	<!-- Waypoint List Follower follower Point Node. -->
+	<node name="trajectory_generator_8" pkg="TG" type="trajectory_generator" args="8" >
+		<remap from="/trajectory_generator_8/out_velocity" to="/orca_8/v_pref" />	
+	</node>
+
+	
+</launch>
+

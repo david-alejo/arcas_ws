@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- Visualization nodes -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find arcas_launch)/config/arcas.vcg" />
+	<node name="scenario" pkg="RVizScenario" type="rvizScenario" />
+	<node name="uals_tf" pkg="transform_from_vicon" type="node" args="4 5 7" />
+	
+</launch>
+

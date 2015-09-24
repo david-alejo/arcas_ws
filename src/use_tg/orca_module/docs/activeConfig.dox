@@ -1,0 +1,6 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~active" : \b [str] Active string min: , default: 1111111111111111, max: 
+

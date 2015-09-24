@@ -1,0 +1,10 @@
+<stack>
+  <description brief="Stack for control nodes">
+    Control nodes here.
+  </description>
+  <author>Jonathan Ruiz Paez</author>
+  <license></license>
+  <review status="unreviewed" notes=""/>
+  <url></url>
+  <depend stack="ros"/>
+</stack>

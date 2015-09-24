@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<robot
+xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+xmlns:xacro="http://ros.org/wiki/xacro"
+>
+
+  <!-- Quadrotor Simple Controller Plugin -->
+  <xacro:macro name="bonebraker_controller" params="state_topic imu_topic">
+    <gazebo>
+      <controller:bonebraker_controller name="bonebraker_controller" plugin="libbonebraker_controller.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <bodyName>base_link</bodyName>
+        <stateTopic>${state_topic}</stateTopic>
+        <imuTopic>${imu_topic}</imuTopic>
+        <maxForce>30</maxForce>
+      </controller:bonebraker_controller>
+    </gazebo>
+  </xacro:macro>
+</robot>

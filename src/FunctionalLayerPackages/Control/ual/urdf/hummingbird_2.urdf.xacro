@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<robot
+  name="quadrotor"
+  xmlns:xacro="http://ros.org/wiki/xacro" 
+  params="model_name"
+>
+
+    <!-- Included URDF Files -->
+    <xacro:include filename="$(find ual)/urdf/hummingbird_base.urdf.xacro" />
+    
+    <!-- Instantiate quadrotor_base_macro once (has no parameters atm) -->
+    <xacro:quadrotor_base_macro model_name="ual_2"/>
+
+</robot>

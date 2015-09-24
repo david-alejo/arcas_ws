@@ -1,0 +1,170 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="testbed">
+    <scene>
+      <shadows>true</shadows>
+    </scene>
+    <physics type="ode">
+      <gravity>0 0 -10</gravity>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>1</iters>
+          <sor>1</sor>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>1.0</erp>
+          <contact_max_correcting_vel>1000.0</contact_max_correcting_vel>
+          <contact_surface_layer>1000.0</contact_surface_layer>
+        </constraints>
+      </ode>
+      <real_time_update_rate>100</real_time_update_rate>
+      <max_step_size>0.01</max_step_size>
+    </physics>
+    <light type="directional" name="sun">
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.9</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>0 0.0 -1.0</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <light type="directional" name="sun2">
+      <pose>0 -50 0.01 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.9</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>0 1 0</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <light type="directional" name="sun3">
+      <pose>0 50 0.01 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.9</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>0 -1 0</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <light type="directional" name="sun4">
+      <pose>-50 0 0.01 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.9</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>1 0 0</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <light type="directional" name="sun5">
+      <pose>50 0 0.01 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.9</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>-1 0 0</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <model name="testbed_floor">
+      <link name="test_bed_floor">
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://testbed_floor.stl</uri>
+            </mesh>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>model://testbed_floor.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+      <static>true</static>
+    </model>
+    <model name="testbed_frame">
+      <link name="test_bed_frame">
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://testbed_frame.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>CATEC/GrayTransparent</script>
+          </material>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>model://testbed_frame.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+      <static>true</static>
+    </model>
+    <model name="testbed_cameras">
+      <link name="test_bed_cameras">
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://testbed_cameras.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>CATEC/RedTransparent</script>
+          </material>
+        </visual>
+      </link>
+      <static>true</static>
+    </model>
+    <model name="obstacle">
+      <link name="link1">
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://cube.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>Red</script>
+          </material>
+        </visual>
+	<collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>model://cube.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+      <static>true</static>
+    </model>
+  </world>
+</sdf>

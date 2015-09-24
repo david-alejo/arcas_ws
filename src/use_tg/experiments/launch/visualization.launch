@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Command line parameters -->
+  <arg name="capture" default="false" />
+  <arg name="video" default="video.glc" />
+  <arg name="scenario" default="true" />
+  <arg name="uavs" default="4 5" />
+  <arg name="scenario_file" default="/home/sinosuke/catkin_ws/src/use_tg/experiments/Media/models/mockup_separate_convex.3ds" />
+  <arg name="r_xy" default="0.75"/>
+  <arg name="r_z" default="0.75"/>
+  
+  <param name="robot_description_1" command="cat $(find ual)/urdf/hummingbird_base.urdf.xacro" />
+  
+<!-- RVIZ representation stuff -->
+ 	<node name="transform" pkg="transform_from_vicon" type="node" args="$(arg uavs) --file $(arg scenario_file) --r_xy $(arg r_xy) --r_z $(arg r_z)"/> 
+	
+	<node name="rvizScenario" pkg="rviz_scenario" type="rvizScenario" if="$(arg scenario)" args="$(arg scenario_file)"/> 
+	
+	<!-- Arcas Visualizer -->
+	<node name="arcas_visualizer" pkg="arcas_visualizer" type="arcas_visualizer"/>
+	
+	
+	<node name="rviz" pkg="rviz" type="rviz" args="4 5" if="$(arg capture)" launch-prefix="glc-capture -s -o $(find experiments)/$(arg video)"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="4 5" unless="$(arg capture)" /> 
+	
+	
+</launch>	

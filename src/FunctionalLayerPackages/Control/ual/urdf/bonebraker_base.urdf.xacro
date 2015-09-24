@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+xmlns:xacro="http://ros.org/wiki/xacro"
+>
+ <!-- <xacro:include filename="$(find hector_sensors_description)/urdf/sonar_sensor.urdf.xacro" />-->
+ <!--<controller:controller_test name="controller_test" plugin="libgazebo_tutorials.so" />-->
+<xacro:include filename="$(find hector_quadrotor_gazebo_plugins)/urdf/quadrotor_plugins.urdf.xacro" />
+<xacro:include filename="$(find bonebraker_arm_controller)/urdf/bonebraker_arm_controller.urdf.xacro" />
+  <property name="pi" value="3.1415926535897931" />
+  <!-- Main quadrotor link -->
+  <xacro:macro name="quadrotor_base_macro">
+    <link name="base_link">
+      <inertial>
+        <mass value="1.487" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.01152" ixy="0.0" ixz="0.0" iyy="0.01152" iyz="0.0" izz="0.0218" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/bonebraker.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/bonebraker.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="arm_base_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo0.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <sphere radius='0.0002'/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="base_arm_joint" type="fixed">
+        <origin xyz="0.07 0.07 0.11" rpy="0.0 0.0 0.7853" />
+        <parent link="base_link"/>
+	<child link="arm_base_link"/>
+  </joint>
+
+<link name="shoulder_0">
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.03" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 -0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo1.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 -0.0" />
+        <geometry>
+          <sphere radius='0.0002'/>
+          
+        </geometry>
+      </collision>
+    </link>
+<gazebo reference="shoulder_0">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+ <joint name="shoulder_y_arm_joint" type="revolute">
+	<axis xyz="0 0 1"/>
+        <limit effort="1000" lower="-0.8726" upper="0.8726" velocity="0.001"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <parent link="arm_base_link"/>
+	<child link="shoulder_0"/>
+  </joint>
+
+
+
+<link name="shoulder_1">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 -0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo2.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 -0.0" />
+        <geometry>
+           <sphere radius='0.0002'/>
+        </geometry>
+      </collision>
+    </link>-->
+  <joint name="shoulder_p_arm_joint" type="revolute">
+	<axis xyz="0 1 0"/>
+        <limit effort="1000" lower="-3.14159" upper="0.0" velocity="0.001"/>
+	<origin xyz="-0.007 0.0 -0.024" rpy="0.0 3.1414 0.0" />
+        <parent link="shoulder_0"/>
+	<child link="shoulder_1"/>
+  </joint>
+<gazebo reference="shoulder_1">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+
+x
+<link name="elbow_0">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.007" ixy="0.0" ixz="0.0" iyy="0.007" iyz="0.0" izz="0.007" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo3.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+           <sphere radius='0.0002'/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="elbow_0_p_arm_joint" type="revolute">
+	<origin xyz="0.247 0.0 0.0" rpy="0.0 3.1414 0.0" />
+	<axis xyz="0 1 0"/>
+        <limit effort="1000" lower="0.0" upper="3.14159" velocity="0.001"/>
+        <parent link="shoulder_1"/>
+	<child link="elbow_0"/>
+  </joint>
+<gazebo reference="elbow_0">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+<link name="elbow_1">
+       <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo4.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <sphere radius='0.0002'/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="elbow_0_r_arm_joint" type="revolute">
+	<axis xyz="1 0 0"/>
+        <limit effort="1000" lower="-2.6179" upper="2.6179" velocity="0.001"/>
+        <origin xyz="0.066 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <parent link="elbow_0"/>
+	<child link="elbow_1"/>
+  </joint>
+<gazebo reference="elbow_1">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+<link name="wirst_0">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.003" ixy="0.0" ixz="0.0" iyy="0.003" iyz="0.0" izz="0.003" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo5.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <sphere radius='0.0002'/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="wirst_0_p_arm_joint" type="revolute">
+	<axis xyz="0 1 0"/>
+        <limit effort="1000" lower="-1.5707" upper="1.5707" velocity="0.001"/>
+	<origin xyz="0.0374 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <parent link="elbow_1"/>
+	<child link="wirst_0"/>
+  </joint>
+<gazebo reference="wirst_0">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+<link name="wirst_1">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo6.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo6.dae"/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="wirst_1_r_arm_joint" type="revolute">
+	<axis xyz="1 0 0"/>
+        <limit effort="1000" lower="-2.6179" upper="2.6179" velocity="0.001"/>
+<origin xyz="0.0592 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <parent link="wirst_0"/>
+	<child link="wirst_1"/>
+  </joint>
+<gazebo reference="wirst_1">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+<link name="claw_0">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo7.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo7.dae"/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="claw_0_y_arm_joint" type="revolute">
+	<axis xyz="0 1 0"/>
+        <limit effort="1000" lower="0" upper="2.932" velocity="0.001"/>
+	<origin xyz="0.019 0.0 -0.015" rpy="0.0 -0.235 0.0" />
+        <parent link="wirst_1"/>
+	<child link="claw_0"/>
+  </joint>
+<gazebo reference="claw_0">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+<link name="claw_1">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo7.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <geometry>
+          <mesh filename="package://ual/Media/models/bonebraker/brazo7.dae"/>
+        </geometry>
+      </collision>
+    </link>
+ <joint name="claw_1_y_arm_joint" type="revolute">
+	<axis xyz="0 -1 0"/>
+        <limit effort="1000" lower="-2.932" upper="0.0" velocity="0.001"/>
+	<origin xyz="0.019 0.0 0.015" rpy="03.14159 0.235 0.0" />
+        <parent link="wirst_1"/>
+	<child link="claw_1"/>
+  </joint>
+<gazebo reference="claw_1">
+      <turnGravityOff>true</turnGravityOff>
+</gazebo>
+
+
+   
+    <gazebo reference="base_link">
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <!-- Gazebo Plugins -->
+    
+    <xacro:quadrotor_plugins model_name="ual_1"/>
+    <bonebraker_arm_controller/>
+  </xacro:macro>
+</robot>

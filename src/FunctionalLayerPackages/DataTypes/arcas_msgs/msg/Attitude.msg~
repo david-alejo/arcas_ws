@@ -1,0 +1,10 @@
+uint8 mode
+uint8 POSITION=0 
+uint8 JOINT=1
+
+float64 roll
+
+float64 pitch
+
+float64 yaw
+  

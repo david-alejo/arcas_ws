@@ -1,0 +1,15 @@
+#goal definition
+#no goal data
+---
+#result definition
+uint8 LANDED=0
+uint8 ALREADY_LANDED=1
+uint8 TAKINGOFF=2
+uint8 LAND_CANCELED=3
+uint8 result
+---
+#feedback definition
+uint8 STOPPED=0
+uint8 INITIAL_PHASE=1
+uint8 FINAL_PHASE=2
+uint8 phase

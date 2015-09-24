@@ -1,0 +1,47 @@
+// Parameters of the DDS configuration
+
+publish_topic = cmd_vel;
+v_pref_topic = v_pref;
+// state_topic = ground_truth_to_tf/pose;
+state_topic = quad_state_estimation;
+// state_topic_others = ual_state_others;
+state_type = arcas;
+prefix = ual_;
+
+unstable = true;
+filter_size = 4;
+
+// ID of the UAV and number of UAVs in the system
+n_uavs = 2;
+remap = 4 5; // Takes the inputs and outputs of uavs 1 and 2 whether simulated or not
+
+orca_file = /home/CATECLAB/jruiz/ros_projects/Arcas/david_worksapce/Experiments_2014_5_13/2_uavs/logs/orca_head_;
+preferred_file = /home/CATECLAB/jruiz/ros_projects/Arcas/david_worksapce/Experiments_2014_5_13/2_uavs/logs/preferred_head_;
+distance_file = /home/CATECLAB/jruiz/ros_projects/Arcas/david_worksapce/Experiments_2014_5_13/2_uavs/logs/distance_obstacles_head_;
+maneuver_file = /home/CATECLAB/jruiz/ros_projects/Arcas/david_worksapce/Experiments_2014_5_13/2_uavs/logs/maneuvers_head_;
+separation_file = /home/CATECLAB/jruiz/ros_projects/Arcas/david_worksapce/Experiments_2014_5_13/2_uavs/logs/separation_head_;
+
+min_dist_wp = -1.0;
+
+
+weighted_filter = true;
+transmit_preferred = true;
+
+
+// ORCA Configuration Parameters
+config {
+  timeStep = 0.2;
+  neighborDist = 6.0;
+  obstacleDist = 4.0;
+  maxNeighbors = 4;
+  collision_multiplier = 6.0;
+  radius = 0.8;
+  radius_z = 0.6;
+  radius_obstacle = 1.0;
+  radius_obstacle_z = 0.7;
+  radius_warning = 1.2;
+  timeHorizon = 4.0;
+  timeObstacle = 2.8;
+  maxSpeed = 0.4;
+  make_convex = false;
+}

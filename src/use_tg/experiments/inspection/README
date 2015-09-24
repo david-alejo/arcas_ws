@@ -1,0 +1,20 @@
+This setup is prepared to fly with UAVs 3 4 5 and 7
+
+Use:
+
+1-  roslaunch ual testbed_pipes.launch
+
+In inspection folder
+
+2-  roslaunch gazebo_nodes.launch
+
+3-  roslaunch master.launch
+
+In inspection/Final_Trajectories
+
+4a-    rosrun ros_bridge_dummy ros_bridge_node traj_3.m traj_1.m traj_2.m --offset 2 --visualize
+
+
+(wait 15s)
+4b-    rosrun ros_bridge_dummy ros_bridge_node traj_4.m --offset 6 --visualize
+    

@@ -1,0 +1,40 @@
+// Parameters of the DDS configuration
+
+publish_topic = quad_control_references;
+v_pref_topic = v_pref;
+state_topic = quad_state_estimation;
+// state_topic_others = ual_state_others;
+state_type = arcas;
+prefix = ual_;
+unstable = true;
+
+// ID of the UAV and number of UAVs in the system
+n_uavs = 3;
+remap = 4 5 6 7; 
+filter_size = 8;
+weighted_filter = true;
+transmit_preferred = true;
+ pure_delay = 0.1;
+
+// ORCA Configuration Parameters
+config {
+  timeStep = 0.02;
+  neighborDist = 8.0;
+  obstacleDist = 3.0;
+  maxNeighbors = 4;
+  collision_multiplier = 30.0;
+  radius = 0.56;
+  radius_z = 0.3;
+  radius_obstacle = 0.75;
+  radius_obstacle_z = 0.3;
+  radius_warning = 0.7;
+  timeHorizon = 4.0;
+  timeObstacle = 1.5;
+  maxSpeed = 0.8;
+  decompose_faces = false;
+  frozen_multiplier = 0.15;
+  a_max = 2.5;
+  z_multiplier = 10.0;
+  propagate_commands = true;
+}
+

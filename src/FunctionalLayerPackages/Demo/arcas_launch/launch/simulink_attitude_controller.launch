@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Include gazebo launch file -->
+	<include file="$(find ual)/launch/testbed_arcas_matlab.launch"/>
+
+	<!-- Control nodes -->
+	<node name="arcas_joystick_1" pkg="arcas_joystick" type="arcas_joystick" args="">
+		<remap from="/ual_1/joystick_control" to="/bonebraker/joystick_control" />
+	</node>
+	
+</launch>
+

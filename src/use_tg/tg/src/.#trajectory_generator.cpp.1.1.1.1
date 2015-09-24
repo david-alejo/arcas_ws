@@ -1,0 +1,238 @@
+#include <ros/ros.h>
+#include <iostream>
+#include <string>
+#include <tf/transform_datatypes.h>
+#include <tf/tf.h>
+
+#include <arcas_msgs/QuadStateEstimationStamped.h>
+#include <arcas_msgs/PositionWithCheck.h>
+#include <arcas_msgs/PathWithCruiseStamped.h>
+#include <arcas_actions_msgs/TakeOffAction.h>
+#include <actionlib/client/simple_action_client.h>
+#include <functions/ArgumentData.h>
+#include <functions/Point3D.h>
+#include <functions/functions.h>
+#include <boost/lexical_cast.hpp>
+
+using namespace std;
+using namespace ros;
+using namespace arcas_msgs;
+using namespace arcas_actions_msgs;
+
+actionlib::SimpleActionClient<TakeOffAction>* cTakeOff;
+
+//UAV id
+int uav_id;
+string uav_full_id;
+
+//Node name
+string node_name;
+
+// Parameter: the lookahead time of the waypoint
+double T = 1.0;
+
+//Last state of our uav
+QuadStateEstimationStamped last_ual_state;
+
+// The desired velocity
+geometry_msgs::Twist my_vel;
+
+//nextWayPoint
+ros::Publisher my_vel_pub;
+
+//My next waypoint
+void waypointListCallback(const arcas_msgs::PathWithCruiseStamped::ConstPtr& vel);
+
+//Actual state of our uav
+void UALStateCallback(const QuadStateEstimationStamped::ConstPtr& state);
+
+// Publishes the waypoint. This waypoint will be followed by the waypoint follower
+void publishVelocity();
+
+// Takes-off the UAV if necessary
+void takeoff();
+
+// Necessary things for navigating a flight plan.
+unsigned int current_way = 0;
+bool plan_received_and_being_executed = 0;
+double min_dist = 0.3;
+QuadStateEstimationStamped curr_state, first_state;
+struct GoalID {
+  unsigned int id;
+  PathWithCruiseStamped goal;
+};
+
+struct GoalID curr_goal; 
+unsigned int n_received = 0;
+bool received_first_state = false;
+
+int main(int argc, char** argv)
+{
+
+  if (argc < 2) {
+    cout << "Use: " << argv[0] << " <uav_id> [<min_dist> [<rate>] ]\n";
+    return -1;
+  }
+
+  try
+  {
+    uav_id = boost::lexical_cast<int>(argv[1]);
+  }
+  catch(boost::bad_lexical_cast const&)
+  {
+    perror("The second argument is not a number.");
+    return 1;
+  }
+
+  //Init ROS.
+  node_name = "trajectory_generator_";
+  node_name.append(argv[1]);
+  ros::init(argc, argv, node_name.c_str());
+  ros::NodeHandle n;
+
+  // Path subscriber
+  std::stringstream ss;
+  ss << "/quad" << uav_id << "_trajectory";
+  ros::Subscriber subWaypointList = n.subscribe(ss.str().c_str(), 0, waypointListCallback);
+
+  //Subscribe to ours uav state
+  stringstream ss2;
+  ss2 << "ual_" << uav_id << "/quad_state_estimation";
+  ros::Subscriber subState = n.subscribe(ss2.str().c_str(), 0, UALStateCallback);
+
+  //Publisher for send the desire velocity
+  string topicname= node_name;
+  topicname.append("/out_velocity");
+  my_vel_pub = n.advertise<geometry_msgs::Twist> (topicname.c_str(), 0);
+  
+  // First publish a zero velocity
+  my_vel.linear.x = 0.0;
+  my_vel.linear.y = 0.0;
+  my_vel.linear.z = 0.0;
+  
+  double rate = 10.0;
+  
+  if (argc > 2) {
+    boost::lexical_cast<double>(min_dist);
+  }
+  
+  if (argc > 3) {
+    istringstream is(argv[3]);
+    is >> min_dist;
+  }
+  
+  if (argc > 4) {
+    istringstream is(argv[3]);
+    is >> rate;
+  }
+  
+  ros::Rate r(rate);
+  while (ros::ok()) {
+    publishVelocity();
+
+  // Starts an asynchronous spinner in order to inmediately response the publications of state, etc
+    ros::spinOnce();
+    r.sleep();
+  }
+  
+  return 0;
+}
+
+void publishVelocity()
+{
+  if (!plan_received_and_being_executed && curr_goal.goal.path_with_cruise.waypoints.size() == 0) {
+    my_vel.angular.x = 0.0;
+    my_vel.angular.y = 0.0;
+    my_vel.angular.z = 0.0;
+    my_vel.linear.x = 0.0;
+    my_vel.linear.y = 0.0;
+    my_vel.linear.z = 0.0;
+  } else {
+    unsigned int index = functions::minimum<unsigned int>(current_way, curr_goal.goal.path_with_cruise.waypoints.size() - 1);
+    functions::Point3D goal(curr_goal.goal.path_with_cruise.waypoints[index].x, 
+			    curr_goal.goal.path_with_cruise.waypoints[index].y,
+			    curr_goal.goal.path_with_cruise.waypoints[index].z);
+    functions::Point3D current_pos(curr_state.quad_state_estimation.position.x, curr_state.quad_state_estimation.position.y, curr_state.quad_state_estimation.position.z);
+    functions::Point3D v_distance;
+    
+    v_distance = goal - current_pos;
+    double distance = v_distance.norm();
+    double cruise = (curr_goal.goal.path_with_cruise.waypoints[index].cruise < 0.005)?0.2:curr_goal.goal.path_with_cruise.waypoints[index].cruise;
+    if (current_way >= curr_goal.goal.path_with_cruise.waypoints.size()) {
+      cruise = distance / 2.0;
+    }
+    v_distance = v_distance * cruise / distance;
+    ROS_INFO("Distance = %f. Min distance = %f. Myvel = %s", distance, curr_goal.goal.path_with_cruise.waypoints[index].cruise, v_distance.toString().c_str());
+    my_vel.linear.x = v_distance.x;
+    my_vel.linear.y = v_distance.y;
+    my_vel.linear.z = v_distance.z;
+
+    if(distance < min_dist && current_way < curr_goal.goal.path_with_cruise.waypoints.size())
+    {
+      current_way++;
+
+      ROS_INFO("Waypoint %d of plan %d reached.", current_way, curr_goal.id);
+      
+      if(current_way >= curr_goal.goal.path_with_cruise.waypoints.size())
+      {
+	// All waypoints have been visited
+	  plan_received_and_being_executed = false;
+	  ROS_INFO("Plan %d executed successfully.", curr_goal.id);
+      }
+    }
+  }
+  
+  my_vel_pub.publish(my_vel);
+}
+
+void UALStateCallback(const QuadStateEstimationStamped::ConstPtr& state) {
+  curr_state = *state.get();
+  if (!received_first_state) {
+    ROS_INFO("Received first state of the UAV.");
+    received_first_state = true;
+    first_state = *state.get();
+  }
+}
+
+void waypointListCallback(const PathWithCruiseStamped_< std::allocator< void > >::ConstPtr& plan)
+{
+  if (!plan_received_and_being_executed && plan.get()->path_with_cruise.waypoints.size() > 0) {
+    
+    plan_received_and_being_executed = true;
+    current_way = 0;
+    curr_goal.goal = *plan.get();
+    curr_goal.id = n_received;
+    
+    stringstream ss;
+    ROS_INFO ("Plan received. Content: ");
+    vector<WayPointWithCruise> wpl = curr_goal.goal.path_with_cruise.waypoints;
+    for (unsigned int i = 0; i < wpl.size(); i++) {
+      ss << i << "(" << wpl.at(i).x << ", " << wpl.at(i).y << ", " << wpl.at(i).z << ") v = " << wpl.at(i).cruise << " ; ";
+    }
+    ROS_INFO("%s", ss.str().c_str());
+    takeoff();
+  } else {
+    if (plan_received_and_being_executed) {
+      ROS_ERROR("Plan discarded, because of a task was being already processed.");
+    } else {
+      ROS_ERROR("Plan discarded: no waypoints inside.");
+    }
+  }
+  n_received++;
+}
+
+void takeoff() {
+  while (!received_first_state) {
+    sleep(1);
+  }
+  
+  std::stringstream idAction;
+  idAction<< "/ual_" << uav_id << "/take_off";
+  cTakeOff = new actionlib::SimpleActionClient<TakeOffAction>(idAction.str(), true);
+  cTakeOff->waitForServer();
+  TakeOffGoal tOff_goal;
+  cTakeOff->sendGoal(tOff_goal);
+  sleep(1);
+  
+  
+}

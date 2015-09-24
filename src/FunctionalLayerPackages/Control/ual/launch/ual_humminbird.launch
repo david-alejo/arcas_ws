@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="uav_id" default="1"/>
+
+<node name="ual_$(arg uav_id)" pkg="ual" type="ual_qnx" args="$(arg uav_id) 10.0.0.40 522$(arg uav_id) 523$(arg uav_id)" />
+
+</launch>

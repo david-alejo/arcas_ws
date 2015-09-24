@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+<param name="/use_sim_time" value="true" />
+<node name="gazebo" pkg="gazebo_ros" type="gazebo" args="$(find ual)/world/testbed_texture.world" respawn="false" output="screen">
+   <env name="GAZEBO_RESOURCE_PATH" value="$(find ual)/models" />
+</node>
+
+<!--node name="gazebo_gui" pkg="gazebo" type="gui" /-->
+
+<include file="$(find ual)/launch/spawn_bonebraker_matlab.launch"/>
+</launch>

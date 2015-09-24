@@ -1,0 +1,10 @@
+<stack>
+  <description brief="Stack for arcas data types">
+    Arcas msgs and arcas actions here.
+  </description>
+  <author>CATEC</author>
+  <license></license>
+  <review status="unreviewed" notes=""/>
+  <url></url>
+  <depend stack="ros"/>
+</stack>

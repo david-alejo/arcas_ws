@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>use_tg</name>
+  <version>0.0.0</version>
+  <description>This package provides path following with adaptative pure pursuit and multi-UAV coordination.</description>
+
+  <maintainer email="dalejo@us.es">David Alejo Teissière</maintainer>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+    <run_depend>external_tools</run_depend>
+  <run_depend>functions</run_depend>
+  <run_depend>sparser</run_depend>
+  <run_depend>orca_module</run_depend>
+  <run_depend>RVO-3D_unstable</run_depend>
+
+
+  <export>
+    <!-- You can specify that this package is a metapackage here: -->
+    <metapackage/>
+  </export>
+</package>
