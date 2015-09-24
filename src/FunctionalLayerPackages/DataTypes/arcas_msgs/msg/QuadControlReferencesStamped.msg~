@@ -1,6 +1,0 @@
-# This contains the control references for a quadrotor. 
-# That is, the desired values of position, velocity and heading for the quadrotor.
-
-Header header
-
-QuadControlReferencesStamped quad_control_references_stamped
