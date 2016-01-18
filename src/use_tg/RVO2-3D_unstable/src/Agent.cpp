@@ -60,12 +60,18 @@
 #include <algorithm>
 #include "Definitions.h"
 #include "KdTree.h"
-#include "functions/RealVector.h"
-#include <functions/functions.h>
 #include <boost/math/special_functions/sign.hpp>
 
 static PQP_REAL unitary[3][3] = { {1, 0 ,0}, {0, 1, 0}, {0, 0 ,1} };
 static PQP_REAL zeros[3] = {0, 0 ,0};
+
+//! @brief Returns the minimum value taking two into account
+//! @param a First value
+//! @param b Second value
+//! @return The minimum of a and b
+template<typename t> inline t minimum(t a, t b) {
+	return (a < b)?a : b;
+}
 
 namespace RVO_UNSTABLE {
 	/**
@@ -208,19 +214,19 @@ namespace RVO_UNSTABLE {
 		  
 		  getObstacleDistance(obs.at(i), relativePosition);
 		  
-		  functions::Point3D relativePosition_(relativePosition.x(), relativePosition.y(), relativePosition.z());
+// 		  functions::Point3D relativePosition_(relativePosition.x(), relativePosition.y(), relativePosition.z());
 		  
 		  
 		  const Vector3 w = velocity_ - invTimeObstacle * relativePosition;
 		  /* Vector from cutoff center to relative velocity. */
 		  const float wLengthSq = absSq(w);
 		  const float dotProduct = w * relativePosition;
-		  const float distSq = relativePosition_*relativePosition_;
+		  const float distSq = relativePosition * relativePosition;
 		  
 		  // Once the triangle is obtained get the constrains related to it!
 		  Vector3 u;
 		  
-		  if (relativePosition_.norm() > obstacleDist_ ) {
+		  if (relativePosition*relativePosition > obstacleDist_*obstacleDist_ ) {
 		    continue;
 		  }
 		  
@@ -338,7 +344,7 @@ namespace RVO_UNSTABLE {
 				plane.normal = unitW;
 				u = (combinedWarning * invTimeStep - wLength) * unitW;
 				if (combinedRadiusSq < combinedWarningSq) {
-				  mult = functions::minimum(( (1 - frozen_mult) * distSq + frozen_mult * combinedWarningSq - combinedRadiusSq) / (combinedWarningSq - combinedRadiusSq), 
+				  mult = minimum(( (1 - frozen_mult) * distSq + frozen_mult * combinedWarningSq - combinedRadiusSq) / (combinedWarningSq - combinedRadiusSq), 
 			      mult);
 // 				  std::cerr << "Conflict: multiplier " << mult << std::endl;
 			  }
@@ -697,27 +703,6 @@ namespace RVO_UNSTABLE {
 		return ret;
 	}
 	
-	Vector3 Agent::getNormal(const Tri *t) const {
-	  functions::Point3D t1(t->p1[0], t->p1[1], t->p1[2]);
-	  functions::Point3D t2(t->p2[0], t->p2[1], t->p2[2]);
-	  functions::Point3D t3(t->p3[0], t->p3[1], t->p3[2]);
-	  functions::Point3D a, b;
-	  a = t2 - t1;
-	  b = t3 - t1;
-	  functions::Point3D norm = a.crossProduct(b);
-	  norm.normalize();
-	  Vector3 ret(norm.x, norm.y, norm.z);
-	  
-	  // Debug
-	  
-// 	  std::cout << "Normal = " << norm.toString() << std::endl;
-	  
-	  
-	  return ret;
-	  
-	 
-	}
-	
 	float Agent::getObstacleDistance(const std::vector<PQP_Model *> &obs) {
 		float ret = 1e100;
 	  	PQP_DistanceResult res;
@@ -752,16 +737,12 @@ namespace RVO_UNSTABLE {
 		
 		ret = PQP_Distance(&res, unitary, zeros, &uav, unitary, zeros, obs, 0.001, 0.001);
 		
-		functions::Point3D p1_(res.p1[0], res.p1[1], res.p1[2]);
-		functions::Point3D p2_(res.p2[0], res.p2[1], res.p2[2]);
-		functions::Point3D relativePosition_ = p2_ - p1_;
+		Vector3 p1(res.p1[0], res.p1[1], res.p1[2]);
+		Vector3 p2(res.p2[0], res.p2[1], res.p2[2]);
+		relativePosition = p2 - p1;
 		if ( radius_obstacle_z > 0.0f && radius_obstacle_z != radius_obstacle_) {
-		  relativePosition_.z *= radius_obstacle_ / radius_obstacle_z; // TODO: preprocess this ratio once
+		  relativePosition[2] *= radius_obstacle_ / radius_obstacle_z;
 		}
-		relativePosition[0] = relativePosition_.x;
-		relativePosition[1] = relativePosition_.y;
-		relativePosition[2] = relativePosition_.z;
-		
 		return ret;
 	}
 	
